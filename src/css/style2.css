@@ -1,0 +1,86 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #0b1c2c;
+}
+
+/* container */
+.login-page .login-container{
+    position: relative;
+    width: 256px;
+    height: 256px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+}
+
+/* animated ring */
+.login-page .login-container span{
+    position: absolute;
+    left: 0;
+    width: 32px;
+    height: 6px;
+    background: #2c4766;
+    border-radius: 8px;
+    transform-origin: 128px;
+    transform: scale(2.2) rotate(calc(var(--i) * (360deg / 50)));
+    animation: login-blink 3s linear infinite;
+    animation-delay: calc(var(--i)*(3s / 50));
+}
+
+@keyframes login-blink{
+    0%{ background:#0ef; }
+    25%{ background:#2c4766; }
+}
+
+/* login card */
+.login-page .login-card{
+    position: relative;
+    width: 400px;
+    padding: 20px;
+    text-align: center;
+    z-index: 2;
+}
+
+.login-page .login-card h2{
+    color:#0ef;
+}
+
+/* form */
+.login-page .login-form{
+    width:100%;
+}
+
+/* inputs */
+.login-page .login-input-box{
+    margin:15px 0;
+}
+
+.login-page .login-input-box input{
+    width:100%;
+    padding:10px;
+    background:transparent;
+    border:1px solid #0ef;
+    border-radius:20px;
+    color:#fff;
+}
+
+/* forget password */
+.login-page .login-forget-pass a{
+    color:#fff;
+    text-decoration:none;
+}
+
+/* button */
+.login-page .login-btn{
+    width:100%;
+    padding:10px;
+    background:#0ef;
+    border:none;
+    border-radius:20px;
+    color:#0b1c2c;
+    font-weight:600;
+}

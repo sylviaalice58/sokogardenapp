@@ -47,6 +47,10 @@ const Signup = () => {
       setEmail("");
       setPassword("");
       setPhone("");
+
+      setTimeout(() => {
+    setSuccess("");
+  }, 5000);
     }
     catch(error){
       // set the loading hook back to default
