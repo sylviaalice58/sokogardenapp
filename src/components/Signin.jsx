@@ -1,107 +1,119 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Signin = () => {
 
-  // define the two hooks for cupturing/storing the uses input
-  const[email,setEmail]=useState("");
-  const[password,setPassword]=useState("");
+  // hooks for storing user input
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  // declare he three additional hookes
-  const[loading,setLoading]= useState("");
-  const[success,setSuccess]=useState("");
-  const[error,setError]=useState("");
+  // additional hooks
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
 
-  // Below we have the use navigate hook to redirect us to another page on successful login/signin
   const navigate = useNavigate()
-  
-  // belowis the function to handle the signin action
-  const handlesubmit =async (e) =>{
-    // prevent site from reloading
+
+  // function to handle signin
+  const handlesubmit = async (e) => {
+
     e.preventDefault()
 
-    // update the loading hook with a message
-    setLoading("Please wait while we authenticate your account.")
+    // start loader
+    setLoading(true)
+    setError("")
+    setSuccess("")
 
-    
+    try {
 
-    try{
-      // Creat a formData object that will hold the email and passord
-      const formdata =new FormData()
+      const formdata = new FormData()
 
-      // 10. Insert/append the email and the password on the formData created.
-      formdata.append("email",email);
-      formdata.append("password",password);
+      formdata.append("email", email);
+      formdata.append("password", password);
 
-      // interact with axios for the response
-      const response = await axios.post("https://kbenkamotho.alwaysdata.net/api/signin", formdata);
+      const response = await axios.post(
+        "https://slyney2248.alwaysdata.net/api/signin",
+        formdata
+      );
 
-      // 12.set the loading hook back to default
-      setLoading("");
+      // stop loader
+      setLoading(false)
 
-      // Check whether the user exists as part of ur responce from the API
-      if(response.data.user){
-        // if user is there definately the details enteredduring signin are correct
-        // setSuccess("Login successful")
-        // if it is successful let a person get redirected to another page
+      if (response.data.user) {
+
+        // store user details in local storage
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+
+        setSuccess("Login successful")
+
         navigate("/")
-      }
-      else{
-        // usernot found that means the credetials entered on the form are incorrect
+
+      } else {
+
         setError("Login failed. Please try again...")
       }
 
-    }
-    catch(error){
-      // set loading back to default
-      setLoading("")
+    } catch (error) {
 
-      // update the error hook with message
-      setError("OOps, something went wrong. Try again...")
+      setLoading(false)
+
+      setError("Oops, something went wrong. Try again...")
     }
-    
 
   }
 
   return (
     <div className='row justify-content-center m-4'>
-        <div className="col-md-6 card shadow p-4">
-          <h1 className='text-info'>Sign In</h1>
+      <div className="col-md-6 card shadow p-4">
 
-          <h5 className="text-info">{loading} </h5>
-          <h3 className="text-success">{success}</h3>
-          <h4 className="text-danger">{error}</h4>
+        <h1 className='text-info'>Sign In</h1>
 
-          <form onSubmit={handlesubmit} >
-            <input type="email" 
+        {/* LOADING SPINNER */}
+        {loading && (
+          <div className="text-center mb-3">
+            <div className="spinner-border text-primary" role="status"></div>
+            <p>Please wait while we authenticate your account...</p>
+          </div>
+        )}
+
+        <h3 className="text-success">{success}</h3>
+        <h4 className="text-danger">{error}</h4>
+
+        <form onSubmit={handlesubmit}>
+
+          <input
+            type="email"
             placeholder='Enter the email address'
             className='form-control'
             required
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}/> <br />
+            onChange={(e) => setEmail(e.target.value)}
+          /> <br />
 
-            {/* {email} */}
-
-            <input type="password"
+          <input
+            type="password"
             placeholder='Enter the password'
-            className='form-control' 
+            className='form-control'
             required
             value={password}
-            onChange={(e)=>setPassword(e.target.value)}/> <br />
+            onChange={(e) => setPassword(e.target.value)}
+          /> <br />
 
-            {/* {password} */}
+          <input
+            type="submit"
+            value={loading ? "Signing in..." : "Signin"}
+            className='btn btn-primary'
+            disabled={loading}
+          /> <br /> <br />
 
-            <input type="submit"
-            value="Signin" 
-            className='btn btn-primary'/>
+           Don't have an account? <Link to={'/signup'}>Register</Link>
 
-          </form>
-        </div>
+        </form>
+
+      </div>
     </div>
   )
 }
 
 export default Signin;
-
-// how can you store the users details into the local storage
