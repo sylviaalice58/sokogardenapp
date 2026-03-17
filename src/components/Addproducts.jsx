@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Loader from './Loarder';
 import axios from 'axios';
+
 
 const Addproducts = () => {
 
@@ -14,6 +15,7 @@ const Addproducts = () => {
   const[loading,setLoading]=useState(false);
   const[success,setSuccess]=useState("");
   const[error,setError]=useState("");
+  const fileInputRef = useRef(null);
 
   // Create a fiunction that will handle the submit action
   const handleSubmit =async(e) =>{
@@ -52,6 +54,14 @@ const Addproducts = () => {
       setProductDescription("");
       setProductCost("");
       setProductPhoto("")
+
+      // clear file input field
+      if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+      // Or
+      // e.target.reset()
+}
+
 
     }
     catch(error){
@@ -108,6 +118,7 @@ const Addproducts = () => {
           className='form-control'
           required
           accept='image/*'
+          ref={fileInputRef}
           onChange={(e) => setProductPhoto(e.target.files[0])}/> <br />
 
           

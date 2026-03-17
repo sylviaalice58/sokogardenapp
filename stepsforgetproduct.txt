@@ -1,0 +1,19 @@
+STEPS FOR FETCHING PRODUCTS IN API
+// 1.Initialize hook to help you manage the state of your product
+2.// create a function to help you fetch the products from ur API
+3.//come up with the try and catch block
+3b.//update the loading hook
+4.//interact with you end point for fetching the products
+5. // update the product hook with the response given in the API
+6.// set the loading hook back to default
+7.//update the content on the catch block
+// if there is an error we need to
+      // set the loading hook back to default
+      setLoading(false)
+
+      // update the error hook with a message
+      setError(error.message)
+8.// We shall use the useEffect hook that automatically re-render new features in case of any changes.
+  useEffect(() => {
+    fetchProducts();
+  }, []);      
